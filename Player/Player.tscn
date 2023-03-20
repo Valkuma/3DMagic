@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
+[ext_resource path="res://Player/WizardScene.tscn" type="PackedScene" id=2]
 
 [sub_resource type="Animation" id=2]
 resource_name = "Idle"
@@ -12,7 +13,7 @@ resource_name = "Walk"
 length = 0.5
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Mesh:translation")
+tracks/0/path = NodePath("wizard:translation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -21,7 +22,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0.2, 0 ), Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( 0, 1, 0 ), Vector3( 0, 1.2, 0 ), Vector3( 0, 1, 0 ) ]
 }
 
 [sub_resource type="AnimationNodeBlendSpace2D" id=13]
@@ -65,13 +66,8 @@ graph_offset = Vector2( 68, -79 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=12]
 
-[sub_resource type="SpatialMaterial" id=23]
-albedo_color = Color( 0.356863, 0.0509804, 0.0509804, 1 )
-
-[sub_resource type="CylinderMesh" id=24]
-material = SubResource( 23 )
-
 [sub_resource type="CylinderShape" id=25]
+height = 2.1
 
 [node name="PlayerScene" type="Spatial"]
 
@@ -80,7 +76,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
 script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="Player"]
-transform = Transform( -1, -2.26267e-08, 8.44439e-08, 0, 0.965926, 0.258819, -8.74228e-08, 0.258819, -0.965926, -1.36057, 3.55118, -6.31459 )
+transform = Transform( -1, -2.26267e-08, 8.44439e-08, 0, 0.965926, 0.258819, -8.74228e-08, 0.258819, -0.965926, -1.36057, 3.44647, -5.14215 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
 anims/Idle = SubResource( 2 )
@@ -94,8 +90,107 @@ parameters/playback = SubResource( 12 )
 parameters/BlendSpace2D/blend_position = Vector2( 0, 0 )
 parameters/Walk/TimeScale/scale = 1.0
 
-[node name="Mesh" type="MeshInstance" parent="Player"]
-mesh = SubResource( 24 )
-
 [node name="Collision" type="CollisionShape" parent="Player"]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0.1, 0 )
 shape = SubResource( 25 )
+
+[node name="wizard" parent="Player" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 1, 0 )
+
+[node name="w" type="ColorRect" parent="Player"]
+margin_left = 53.0
+margin_top = 10.0
+margin_right = 80.0
+margin_bottom = 41.0
+color = Color( 0.392157, 0.392157, 0.392157, 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/w"]
+margin_left = 7.0
+margin_top = 8.0
+margin_right = 87.0
+margin_bottom = 73.0
+text = "w"
+
+[node name="s" type="ColorRect" parent="Player"]
+margin_left = 53.0
+margin_top = 54.0
+margin_right = 80.0
+margin_bottom = 85.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/s"]
+margin_left = 7.0
+margin_top = 8.0
+margin_right = 87.0
+margin_bottom = 73.0
+text = "s"
+
+[node name="a" type="ColorRect" parent="Player"]
+margin_left = 14.0
+margin_top = 54.0
+margin_right = 41.0
+margin_bottom = 85.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/a"]
+margin_left = 7.0
+margin_top = 8.0
+margin_right = 87.0
+margin_bottom = 73.0
+text = "a"
+
+[node name="d" type="ColorRect" parent="Player"]
+margin_left = 95.0
+margin_top = 55.0
+margin_right = 122.0
+margin_bottom = 86.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/d"]
+margin_left = 7.0
+margin_top = 8.0
+margin_right = 87.0
+margin_bottom = 73.0
+text = "d"
+
+[node name="jumpu" type="ColorRect" parent="Player"]
+margin_left = 133.0
+margin_top = 55.0
+margin_right = 172.0
+margin_bottom = 86.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/jumpu"]
+margin_left = 9.0
+margin_top = 9.0
+margin_right = 53.0
+margin_bottom = 74.0
+text = "hop"
+
+[node name="m1" type="ColorRect" parent="Player"]
+margin_left = 112.0
+margin_top = 6.0
+margin_right = 143.0
+margin_bottom = 44.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/m1"]
+margin_left = 7.0
+margin_top = 13.0
+margin_right = 29.0
+margin_bottom = 35.0
+text = "M1"
+
+[node name="m2" type="ColorRect" parent="Player"]
+margin_left = 152.0
+margin_top = 6.0
+margin_right = 183.0
+margin_bottom = 44.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/m2"]
+margin_left = 7.0
+margin_top = 13.0
+margin_right = 29.0
+margin_bottom = 35.0
+text = "M2"

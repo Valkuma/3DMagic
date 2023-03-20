@@ -8,18 +8,28 @@ var velocity = Vector3.ZERO # A vector that stores the current velocity of the p
 var target_velocity = Vector3.ZERO # A vector that stores the desired velocity of the player based on input
 var acceleration = 4 #how fast to gain units/second
 var jump_count = 0 #tracks current jumps
-var max_jumps = 1 #max number of jumps
+var max_jumps = 2 #max number of jumps
 var air_jump_scale = 0.8 # strength of second+ jumps
 var sensitivity = 0.2 #camera move sensitivity
 var min_pitch = -25 #camera pitch max (up)
 var max_pitch = 25 #camera pitch min (down)
 var pitch = 15 #default cam pitch
 
+#OSD INPUTS
+onready var osd_boxes = {
+	KEY_W: $w,
+	KEY_S: $s,
+	KEY_A: $a,
+	KEY_D: $d,
+	KEY_SPACE: $jumpu,
+	BUTTON_LEFT: $m1,
+	BUTTON_RIGHT: $m2,
+}
+
 onready var camera = $Camera # A reference to the Camera node child of Player
 onready var animation_player = $AnimationPlayer # A reference to the AnimationPlayer node child of Player
 onready var animation_tree = $AnimationTree
 onready var state_machine = $AnimationTree.get("parameters/playback")
-
 
 func _ready():
 	state_machine.start("")
@@ -35,6 +45,19 @@ func _input(event):
 		pitch += motion.y * sensitivity
 		pitch = clamp(pitch, min_pitch, max_pitch)
 		camera.rotation.x = deg2rad(-pitch)
+	#OSD INPUT
+	if event is InputEventKey:
+		var key = event.scancode
+		if key in osd_boxes:
+			var box = osd_boxes[key]
+			
+			box.color = (Color(.5, .1, .1) if event.pressed else Color(0, 0, 0))
+	if event is InputEventMouseButton:
+		var key = event.button_index
+		if key in osd_boxes:
+			var box = osd_boxes[key]
+			
+			box.color = (Color(.5, .1, .1) if event.pressed else Color(0, 0, 0))
 pass
 
 
@@ -55,12 +78,11 @@ func _physics_process(delta):
 	target_velocity = speed * direction
 	velocity = velocity.linear_interpolate(target_velocity, delta * acceleration)
 
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	#if not is_on_floor():
+	velocity.y += gravity * delta
 	velocity = move_and_slide(velocity, Vector3.UP)
 
 #JUMPING LOGIC
-# We check if we are on floor using KinematicBody's built-in method. 
 	if is_on_floor():
 		jump_count = 0
 		if Input.is_action_just_pressed("jump"):
@@ -70,11 +92,13 @@ func _physics_process(delta):
 			jump_count += 1
 			velocity.y += air_jump_scale * jump_force
 	
+	
+	#ANIMATIONS
 	if direction.length() == 0:
 		state_machine.travel("Idle")
-		#animation_tree["parameters/state/current"] = 1
+	elif not is_on_floor():
+		state_machine.travel("Idle")
 	else:
 		state_machine.travel("Walk")
 		#$AnimationPlayer.playback_speed = direction.length() * speed * 20
-		#animation_tree["parameters/state/current"] = 0
 	pass
