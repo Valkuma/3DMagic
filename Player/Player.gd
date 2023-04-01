@@ -38,6 +38,7 @@ onready var state_machine = $AnimationTree.get("parameters/playback")
 func _ready():
 	state_machine.start("")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	get_parent().add_to_group("player")
 pass
 
 

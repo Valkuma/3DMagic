@@ -1,0 +1,5 @@
+[gd_resource type="ConvexPolygonShape" format=2]
+
+[resource]
+margin = 0.174
+points = PoolVector3Array( 1, 1, 1, 1, 0, 1, -1, 0, 1, -1, 1, 1, -15, 0, -35, 15, 0, -35, 15, 1, -35, -15, 1, -35 )

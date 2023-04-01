@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://assets/models/objects/raw/Material_001.material" type="Material" id=1]
 [ext_resource path="res://assets/models/objects/raw/Material_002.material" type="Material" id=2]
 [ext_resource path="res://assets/models/objects/raw/Material_003.material" type="Material" id=3]
 [ext_resource path="res://Scenes/enemies/shadowling.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/enemies/shadowlingsight.tres" type="Shape" id=5]
 
 [sub_resource type="Curve" id=5]
 min_value = -1.0
@@ -95,8 +96,12 @@ surfaces/0 = {
 
 [sub_resource type="CylinderShape" id=4]
 
-[sub_resource type="ConvexPolygonShape" id=13]
-points = PoolVector3Array( 1, 0, 0, -1, 0, 0, -15, 0, -35, 15, 0, -35 )
+[sub_resource type="SpatialMaterial" id=16]
+albedo_color = Color( 0.207843, 0, 0, 1 )
+
+[sub_resource type="QuadMesh" id=17]
+material = SubResource( 16 )
+size = Vector2( 30, 1 )
 
 [sub_resource type="BoxShape" id=10]
 
@@ -120,10 +125,182 @@ roughness = 0.5
 material = SubResource( 11 )
 
 [node name="shadowling" type="Spatial"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 
 [node name="KinematicBody" type="KinematicBody" parent="."]
 script = ExtResource( 4 )
+
+[node name="debugUI" type="Control" parent="KinematicBody"]
+anchor_left = 0.494
+anchor_right = 0.725
+anchor_bottom = 0.455
+margin_left = 0.143982
+margin_top = 3.0
+margin_right = -0.400024
+margin_bottom = 3.0
+
+[node name="sling-los" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = 291.0
+margin_top = -1.0
+margin_right = 408.0
+margin_bottom = 43.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="los" type="RichTextLabel" parent="KinematicBody/debugUI/sling-los"]
+margin_right = 26.0
+margin_bottom = 15.0
+text = "los:"
+scroll_active = false
+
+[node name="los2" type="RichTextLabel" parent="KinematicBody/debugUI/sling-los"]
+margin_left = 23.0
+margin_top = 1.0
+margin_right = 113.0
+margin_bottom = 41.0
+scroll_active = false
+
+[node name="loscollider" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = 292.0
+margin_top = 46.0
+margin_right = 442.0
+margin_bottom = 101.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="loscollider" type="RichTextLabel" parent="KinematicBody/debugUI/loscollider"]
+margin_right = 86.0
+margin_bottom = 15.0
+text = "los collider:"
+scroll_active = false
+
+[node name="loscollider2" type="RichTextLabel" parent="KinematicBody/debugUI/loscollider"]
+margin_left = 5.0
+margin_top = 15.0
+margin_right = 146.0
+margin_bottom = 52.0
+scroll_active = false
+
+[node name="body" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = 43.0
+margin_top = 50.0
+margin_right = 160.0
+margin_bottom = 94.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="body" type="RichTextLabel" parent="KinematicBody/debugUI/body"]
+margin_right = 37.0
+margin_bottom = 16.0
+text = "body:"
+scroll_active = false
+
+[node name="body2" type="RichTextLabel" parent="KinematicBody/debugUI/body"]
+margin_left = 37.0
+margin_top = 1.0
+margin_right = 112.0
+margin_bottom = 41.0
+text = "null"
+scroll_active = false
+
+[node name="bodygroups" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = 166.0
+margin_right = 283.0
+margin_bottom = 44.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="body" type="RichTextLabel" parent="KinematicBody/debugUI/bodygroups"]
+margin_right = 86.0
+margin_bottom = 16.0
+text = "bodygroups:"
+scroll_active = false
+
+[node name="body2" type="RichTextLabel" parent="KinematicBody/debugUI/bodygroups"]
+margin_left = 4.0
+margin_top = 15.0
+margin_right = 112.0
+margin_bottom = 40.0
+text = "null"
+scroll_active = false
+
+[node name="castto" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = 166.0
+margin_top = 49.0
+margin_right = 283.0
+margin_bottom = 143.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="castto" type="RichTextLabel" parent="KinematicBody/debugUI/castto"]
+margin_right = 86.0
+margin_bottom = 16.0
+text = "castto:"
+scroll_active = false
+
+[node name="castto2" type="RichTextLabel" parent="KinematicBody/debugUI/castto"]
+margin_left = 4.0
+margin_top = 15.0
+margin_right = 112.0
+margin_bottom = 89.0
+text = "0,0,0"
+scroll_active = false
+
+[node name="playertext" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = 41.0
+margin_right = 158.0
+margin_bottom = 44.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="playertext" type="RichTextLabel" parent="KinematicBody/debugUI/playertext"]
+margin_right = 43.0
+margin_bottom = 15.0
+text = "player:"
+scroll_active = false
+
+[node name="playertext2" type="RichTextLabel" parent="KinematicBody/debugUI/playertext"]
+margin_left = 3.0
+margin_top = 16.0
+margin_right = 114.0
+margin_bottom = 42.0
+text = "null"
+scroll_active = false
+
+[node name="enterconnected" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = -84.0
+margin_top = -3.0
+margin_right = 33.0
+margin_bottom = 23.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="enterconnected" type="RichTextLabel" parent="KinematicBody/debugUI/enterconnected"]
+margin_right = 131.0
+margin_bottom = 15.0
+text = "enter connected:"
+scroll_active = false
+
+[node name="enterconnected2" type="RichTextLabel" parent="KinematicBody/debugUI/enterconnected"]
+margin_left = 1.0
+margin_top = 13.0
+margin_right = 35.0
+margin_bottom = 27.0
+text = "false"
+scroll_active = false
+
+[node name="exitconnected2" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = -83.0
+margin_top = 26.0
+margin_right = 34.0
+margin_bottom = 52.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="exitconnected" type="RichTextLabel" parent="KinematicBody/debugUI/exitconnected2"]
+margin_right = 131.0
+margin_bottom = 15.0
+text = "exit connected:"
+scroll_active = false
+
+[node name="exitconnected2" type="RichTextLabel" parent="KinematicBody/debugUI/exitconnected2"]
+margin_left = 1.0
+margin_top = 13.0
+margin_right = 35.0
+margin_bottom = 27.0
+text = "false"
+scroll_active = false
 
 [node name="Particles" type="Particles" parent="KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113614, 0.47646, -0.00190461 )
@@ -159,14 +336,22 @@ shape = SubResource( 4 )
 
 [node name="sightcol" type="CollisionShape" parent="KinematicBody/sight"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.64354 )
-shape = SubResource( 13 )
+shape = ExtResource( 5 )
+
+[node name="cone" type="MeshInstance" parent="KinematicBody/sight/sightcol"]
+transform = Transform( 1, 0, 0, 0, -0.0297011, 0.999559, 0, -0.999559, -0.0297011, 0, 0, -34.6866 )
+mesh = SubResource( 17 )
 
 [node name="los" type="RayCast" parent="KinematicBody/sight"]
-cast_to = Vector3( 0, 0, -35 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -0.733014, 0, 0.0843979, -1.10862 )
+enabled = true
+cast_to = Vector3( 0, 0, 5 )
+collision_mask = 8
+debug_shape_thickness = 5
 
-[node name="Attack" type="Spatial" parent="."]
+[node name="Attack" type="Spatial" parent="KinematicBody"]
 
-[node name="SpotLight" type="SpotLight" parent="Attack"]
+[node name="SpotLight" type="SpotLight" parent="KinematicBody/Attack"]
 transform = Transform( 2, 0, 0, 0, 1.29494, 1.52418, 0, -1.52418, 1.29494, 0, 1.51161, -1.42327 )
 light_color = Color( 0.309804, 0, 0, 1 )
 light_energy = 2.0
@@ -174,16 +359,20 @@ shadow_enabled = true
 spot_range = 2.0
 spot_angle = 30.0
 
-[node name="attackDetectArea" type="Area" parent="Attack"]
+[node name="attackDetectArea" type="Area" parent="KinematicBody/Attack"]
+collision_layer = 2
+collision_mask = 2
 
-[node name="attackDetectBox" type="CollisionShape" parent="Attack/attackDetectArea"]
+[node name="attackDetectBox" type="CollisionShape" parent="KinematicBody/Attack/attackDetectArea"]
 transform = Transform( 0.768198, -0.131802, 0.45, 0.45, 0.45, -0.636396, -0.131802, 0.768198, 0.45, 0, 0.104045, -3.43486 )
 shape = SubResource( 10 )
 
-[node name="AttackHurtArea" type="Area" parent="Attack"]
+[node name="AttackHurtArea" type="Area" parent="KinematicBody/Attack"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.104045, -1.00926 )
+collision_layer = 2
+collision_mask = 2
 
-[node name="Particles" type="Particles" parent="Attack/AttackHurtArea"]
+[node name="Particles" type="Particles" parent="KinematicBody/Attack/AttackHurtArea"]
 transform = Transform( 0.384099, -0.065901, 0.225, 0.225, 0.225, -0.318198, -0.065901, 0.384099, 0.225, 0, 0, -2.4256 )
 emitting = false
 amount = 16
@@ -192,11 +381,12 @@ one_shot = true
 process_material = SubResource( 14 )
 draw_pass_1 = SubResource( 15 )
 
-[node name="attackHurtbox" type="CollisionShape" parent="Attack/AttackHurtArea"]
+[node name="attackHurtbox" type="CollisionShape" parent="KinematicBody/Attack/AttackHurtArea"]
 transform = Transform( 0.384099, -0.065901, 0.225, 0.225, 0.225, -0.318198, -0.065901, 0.384099, 0.225, 0, 0, -2.4256 )
 shape = SubResource( 10 )
 
-[node name="attackEffect" type="MeshInstance" parent="Attack/AttackHurtArea/attackHurtbox"]
+[node name="attackEffect" type="MeshInstance" parent="KinematicBody/Attack/AttackHurtArea/attackHurtbox"]
 transform = Transform( 1, 8.19564e-08, 0, 8.9407e-08, 1, 0, 5.96046e-08, 5.96046e-08, 1, 0, 0, 0 )
+visible = false
 mesh = SubResource( 12 )
 skeleton = NodePath("../..")
