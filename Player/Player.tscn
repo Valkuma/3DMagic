@@ -97,100 +97,313 @@ shape = SubResource( 25 )
 [node name="wizard" parent="Player" instance=ExtResource( 2 )]
 transform = Transform( -2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 1, 0 )
 
-[node name="w" type="ColorRect" parent="Player"]
+[node name="UIContainer" type="Node" parent="Player"]
+
+[node name="DebugUIContainer" type="Node" parent="Player"]
+
+[node name="w" type="ColorRect" parent="Player/DebugUIContainer"]
 margin_left = 53.0
 margin_top = 10.0
 margin_right = 80.0
 margin_bottom = 41.0
 color = Color( 0.392157, 0.392157, 0.392157, 1 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Player/w"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/DebugUIContainer/w"]
 margin_left = 7.0
 margin_top = 8.0
 margin_right = 87.0
 margin_bottom = 73.0
 text = "w"
 
-[node name="s" type="ColorRect" parent="Player"]
+[node name="s" type="ColorRect" parent="Player/DebugUIContainer"]
 margin_left = 53.0
 margin_top = 54.0
 margin_right = 80.0
 margin_bottom = 85.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Player/s"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/DebugUIContainer/s"]
 margin_left = 7.0
 margin_top = 8.0
 margin_right = 87.0
 margin_bottom = 73.0
 text = "s"
 
-[node name="a" type="ColorRect" parent="Player"]
+[node name="a" type="ColorRect" parent="Player/DebugUIContainer"]
 margin_left = 14.0
 margin_top = 54.0
 margin_right = 41.0
 margin_bottom = 85.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Player/a"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/DebugUIContainer/a"]
 margin_left = 7.0
 margin_top = 8.0
 margin_right = 87.0
 margin_bottom = 73.0
 text = "a"
 
-[node name="d" type="ColorRect" parent="Player"]
+[node name="d" type="ColorRect" parent="Player/DebugUIContainer"]
 margin_left = 95.0
 margin_top = 55.0
 margin_right = 122.0
 margin_bottom = 86.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Player/d"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/DebugUIContainer/d"]
 margin_left = 7.0
 margin_top = 8.0
 margin_right = 87.0
 margin_bottom = 73.0
 text = "d"
 
-[node name="jumpu" type="ColorRect" parent="Player"]
+[node name="jumpu" type="ColorRect" parent="Player/DebugUIContainer"]
 margin_left = 133.0
 margin_top = 55.0
 margin_right = 172.0
 margin_bottom = 86.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Player/jumpu"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/DebugUIContainer/jumpu"]
 margin_left = 9.0
 margin_top = 9.0
 margin_right = 53.0
 margin_bottom = 74.0
 text = "hop"
 
-[node name="m1" type="ColorRect" parent="Player"]
+[node name="m1" type="ColorRect" parent="Player/DebugUIContainer"]
 margin_left = 112.0
 margin_top = 6.0
 margin_right = 143.0
 margin_bottom = 44.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Player/m1"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/DebugUIContainer/m1"]
 margin_left = 7.0
 margin_top = 13.0
 margin_right = 29.0
 margin_bottom = 35.0
 text = "M1"
 
-[node name="m2" type="ColorRect" parent="Player"]
+[node name="m2" type="ColorRect" parent="Player/DebugUIContainer"]
 margin_left = 152.0
 margin_top = 6.0
 margin_right = 183.0
 margin_bottom = 44.0
+rect_pivot_offset = Vector2( 58, 12 )
 color = Color( 0, 0, 0, 1 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Player/m2"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/DebugUIContainer/m2"]
 margin_left = 7.0
 margin_top = 13.0
 margin_right = 29.0
 margin_bottom = 35.0
 text = "M2"
+
+[node name="gravity" type="ColorRect" parent="Player/DebugUIContainer"]
+margin_left = 215.0
+margin_top = 7.0
+margin_right = 257.0
+margin_bottom = 23.0
+rect_pivot_offset = Vector2( 58, 12 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="grav" type="RichTextLabel" parent="Player/DebugUIContainer/gravity"]
+margin_left = 4.0
+margin_right = 17.0
+margin_bottom = 22.0
+text = "g:"
+
+[node name="grav2" type="RichTextLabel" parent="Player/DebugUIContainer/gravity"]
+margin_left = 15.0
+margin_top = 1.0
+margin_right = 37.0
+margin_bottom = 14.0
+text = "-65"
+scroll_active = false
+
+[node name="flor" type="ColorRect" parent="Player/DebugUIContainer"]
+margin_left = 190.0
+margin_top = 46.0
+margin_right = 254.0
+margin_bottom = 66.0
+rect_pivot_offset = Vector2( 58, 12 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="flor" type="RichTextLabel" parent="Player/DebugUIContainer/flor"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 31.0
+margin_bottom = 26.0
+text = "flor:"
+
+[node name="flor2" type="RichTextLabel" parent="Player/DebugUIContainer/flor"]
+margin_left = 32.0
+margin_top = 4.0
+margin_right = 65.0
+margin_bottom = 25.0
+text = "false"
+
+[node name="jumps" type="ColorRect" parent="Player/DebugUIContainer"]
+margin_left = 215.0
+margin_top = 25.0
+margin_right = 245.0
+margin_bottom = 45.0
+rect_pivot_offset = Vector2( 58, 12 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="jumps" type="RichTextLabel" parent="Player/DebugUIContainer/jumps"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 17.0
+margin_bottom = 26.0
+text = "jr:"
+
+[node name="jumps2" type="RichTextLabel" parent="Player/DebugUIContainer/jumps"]
+margin_left = 18.0
+margin_top = 4.0
+margin_right = 28.0
+margin_bottom = 18.0
+text = "2"
+scroll_active = false
+
+[node name="vy" type="ColorRect" parent="Player/DebugUIContainer"]
+margin_left = 264.0
+margin_top = 23.0
+margin_right = 331.0
+margin_bottom = 41.0
+rect_pivot_offset = Vector2( -31, 61 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="vely" type="RichTextLabel" parent="Player/DebugUIContainer/vy"]
+margin_left = 2.0
+margin_top = 1.0
+margin_right = 28.0
+margin_bottom = 23.0
+text = "v.y:"
+
+[node name="vely2" type="RichTextLabel" parent="Player/DebugUIContainer/vy"]
+margin_left = 25.0
+margin_top = 2.0
+margin_right = 65.0
+margin_bottom = 16.0
+text = "00.00"
+scroll_active = false
+
+[node name="maxvy" type="ColorRect" parent="Player/DebugUIContainer"]
+margin_left = 259.0
+margin_top = 43.0
+margin_right = 331.0
+margin_bottom = 61.0
+rect_pivot_offset = Vector2( -31, 61 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="maxvy" type="RichTextLabel" parent="Player/DebugUIContainer/maxvy"]
+margin_left = 2.0
+margin_top = 1.0
+margin_right = 35.0
+margin_bottom = 23.0
+text = ">v.y:"
+scroll_active = false
+
+[node name="maxvy2" type="RichTextLabel" parent="Player/DebugUIContainer/maxvy"]
+margin_left = 34.0
+margin_top = 2.0
+margin_right = 74.0
+margin_bottom = 16.0
+text = "00.00"
+scroll_active = false
+
+[node name="height" type="ColorRect" parent="Player/DebugUIContainer"]
+margin_left = 272.0
+margin_top = 5.0
+margin_right = 331.0
+margin_bottom = 21.0
+rect_pivot_offset = Vector2( 58, 12 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="hi" type="RichTextLabel" parent="Player/DebugUIContainer/height"]
+margin_left = 2.0
+margin_top = 1.0
+margin_right = 24.0
+margin_bottom = 23.0
+text = "hi:"
+
+[node name="hi2" type="RichTextLabel" parent="Player/DebugUIContainer/height"]
+margin_left = 19.0
+margin_top = 1.0
+margin_right = 57.0
+margin_bottom = 15.0
+text = "00.00"
+scroll_active = false
+
+[node name="lasth" type="ColorRect" parent="Player/DebugUIContainer"]
+margin_left = 333.0
+margin_top = 24.0
+margin_right = 403.0
+margin_bottom = 41.0
+rect_pivot_offset = Vector2( 58, 12 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="lasth" type="RichTextLabel" parent="Player/DebugUIContainer/lasth"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 28.0
+margin_bottom = 17.0
+text = "l-h:"
+
+[node name="lasth2" type="RichTextLabel" parent="Player/DebugUIContainer/lasth"]
+margin_left = 26.0
+margin_top = 3.0
+margin_right = 63.0
+margin_bottom = 17.0
+text = "00.00"
+scroll_active = false
+
+[node name="minh" type="ColorRect" parent="Player/DebugUIContainer"]
+margin_left = 333.0
+margin_top = 5.0
+margin_right = 403.0
+margin_bottom = 22.0
+rect_pivot_offset = Vector2( 58, 12 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="minh" type="RichTextLabel" parent="Player/DebugUIContainer/minh"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 28.0
+margin_bottom = 17.0
+text = "<-h:"
+scroll_active = false
+
+[node name="minh2" type="RichTextLabel" parent="Player/DebugUIContainer/minh"]
+margin_left = 26.0
+margin_top = 3.0
+margin_right = 63.0
+margin_bottom = 17.0
+text = "00.00"
+scroll_active = false
+
+[node name="maxh" type="ColorRect" parent="Player/DebugUIContainer"]
+margin_left = 333.0
+margin_top = 43.0
+margin_right = 403.0
+margin_bottom = 60.0
+rect_pivot_offset = Vector2( 58, 12 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="maxh" type="RichTextLabel" parent="Player/DebugUIContainer/maxh"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 28.0
+margin_bottom = 17.0
+text = ">-h:"
+scroll_active = false
+
+[node name="maxh2" type="RichTextLabel" parent="Player/DebugUIContainer/maxh"]
+margin_left = 26.0
+margin_top = 3.0
+margin_right = 63.0
+margin_bottom = 17.0
+text = "00.00"
+scroll_active = false

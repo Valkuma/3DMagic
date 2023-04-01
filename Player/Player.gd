@@ -1,29 +1,33 @@
 extends KinematicBody
+var health=100
 
 var speed = 16 # The movement speed of the player in units per second
-var gravity = -45 # The gravity force applied to the player in units per second squared
-var jump_force = 30 # The upward force applied to the player when jumping in units per second
+var gravity = -65 # The gravity force applied to the player in units per second squared
+var jump_force = 15 # The upward force applied to the player when jumping in units per second
 var mouse_sensitivity = 0.3 # The sensitivity of mouse input for camera rotation
 var velocity = Vector3.ZERO # A vector that stores the current velocity of the player
 var target_velocity = Vector3.ZERO # A vector that stores the desired velocity of the player based on input
-var acceleration = 4 #how fast to gain units/second
+var acceleration = 3 #how fast to gain units/second
 var jump_count = 0 #tracks current jumps
 var max_jumps = 2 #max number of jumps
+var jump_lerp_speed = 100  # Adjust this value to control the smoothness of the jump, miliseconds?
 var air_jump_scale = 0.8 # strength of second+ jumps
 var sensitivity = 0.2 #camera move sensitivity
 var min_pitch = -25 #camera pitch max (up)
 var max_pitch = 25 #camera pitch min (down)
 var pitch = 15 #default cam pitch
+#DEBUG VAR
+var lasthreset
 
 #OSD INPUTS
 onready var osd_boxes = {
-	KEY_W: $w,
-	KEY_S: $s,
-	KEY_A: $a,
-	KEY_D: $d,
-	KEY_SPACE: $jumpu,
-	BUTTON_LEFT: $m1,
-	BUTTON_RIGHT: $m2,
+	KEY_W: $DebugUIContainer/w,
+	KEY_S: $DebugUIContainer/s,
+	KEY_A: $DebugUIContainer/a,
+	KEY_D: $DebugUIContainer/d,
+	KEY_SPACE: $DebugUIContainer/jumpu,
+	BUTTON_LEFT: $DebugUIContainer/m1,
+	BUTTON_RIGHT: $DebugUIContainer/m2,
 }
 
 onready var camera = $Camera # A reference to the Camera node child of Player
@@ -72,26 +76,35 @@ func _physics_process(delta):
 		direction.z += 1
 	if Input.is_action_pressed("move_forward"):
 		direction.z -= 1
+	if Input.is_action_pressed("escape"):
+		get_tree().quit()
 
 	direction = direction.normalized()
-	direction = camera.global_transform.basis.xform(direction)
+	#New code to fix the slowdown issue only transform direction based on horizontal camera not vertical
+	var horizontal_direction = Vector3(direction.x, 0, direction.z)
+	horizontal_direction = camera.global_transform.basis.xform(horizontal_direction)
+	direction = Vector3(horizontal_direction.x, direction.y, horizontal_direction.z)
+	#direction = camera.global_transform.basis.xform(direction)
 	target_velocity = speed * direction
 	velocity = velocity.linear_interpolate(target_velocity, delta * acceleration)
 
 	#if not is_on_floor():
 	velocity.y += gravity * delta
-	velocity = move_and_slide(velocity, Vector3.UP)
+	velocity = move_and_slide(velocity, Vector3.UP,false,4,0.785398,false)
 
-#JUMPING LOGIC
+
+	#JUMPING LOGIC
+	
 	if is_on_floor():
 		jump_count = 0
 		if Input.is_action_just_pressed("jump"):
-			velocity.y += jump_force
-	else:
-		if jump_count < max_jumps - 1 and Input.is_action_just_pressed("jump"):
+			velocity.y = lerp(velocity.y, jump_force, delta * jump_lerp_speed)
 			jump_count += 1
-			velocity.y += air_jump_scale * jump_force
-	
+	else:
+		if jump_count < max_jumps  and Input.is_action_just_pressed("jump"):
+			jump_count += 1
+			velocity.y = lerp(velocity.y, air_jump_scale * jump_force, delta * jump_lerp_speed)
+
 	
 	#ANIMATIONS
 	if direction.length() == 0:
@@ -102,3 +115,58 @@ func _physics_process(delta):
 		state_machine.travel("Walk")
 		#$AnimationPlayer.playback_speed = direction.length() * speed * 20
 	pass
+
+	#DEBUG OUTPUT
+	var velocitynode=get_node("DebugUIContainer/vy/vely2")
+	var maxvynode=get_node("DebugUIContainer/maxvy/maxvy2")
+	var gravnode=get_node("DebugUIContainer/gravity/grav2")
+	var hinode=get_node("DebugUIContainer/height/hi2")
+	var maxhnode=get_node("DebugUIContainer/maxh/maxh2")
+	var minhnode=get_node("DebugUIContainer/minh/minh2")
+	var lasthnode=get_node("DebugUIContainer/lasth/lasth2")
+	var jumpsnode=get_node("DebugUIContainer/jumps/jumps2")
+	var flornode=get_node("DebugUIContainer/flor/flor2")
+	var maxhcounter=float(maxhnode.text)
+	var lasthcounter = float(lasthnode.text)
+	var maxvycounter=float(maxvynode.text)
+	var minhcounter=float(minhnode.text)
+	
+	jumpsnode.text=str(jump_count)
+	gravnode.text=str(gravity)
+	
+	hinode.text=str(stepify(global_transform.origin.y,0.01)-1.95)
+	flornode.text=str(is_on_floor())
+	
+	#Velocity-Y 
+	velocitynode.text=str(stepify(velocity.y,0.01))
+	#MaxVel-Y Counter
+	if velocity.y>maxvycounter:
+		maxvycounter=velocity.y
+		maxvynode.text=str(stepify(maxvycounter,0.01))
+	pass
+	
+	#Max Height Counter
+	if global_transform.origin.y>maxhcounter:
+		maxhcounter=global_transform.origin.y
+		maxhnode.text=str(stepify(maxhcounter,0.01))
+	pass
+	#Min Height Counter
+	if global_transform.origin.y<minhcounter:
+		minhcounter=global_transform.origin.y
+		minhnode.text=str(stepify(minhcounter,0.01))
+	pass
+	
+	#Last Height Counter
+	if lasthreset :
+		if not is_on_floor() :
+			lasthnode.text="0"
+			lasthreset=false
+	else:
+		if not is_on_floor() : #if NOT time to reset and OFF the floor, start making a new lasth
+			if global_transform.origin.y>lasthcounter:
+				lasthcounter=global_transform.origin.y
+				lasthnode.text=str(stepify(lasthcounter,0.01))
+		else: #If NOT time to reset, and ON the floor, signal time to reset.
+			lasthreset=true
+	pass
+	#maxhnode.text=str(maxhcounter)
