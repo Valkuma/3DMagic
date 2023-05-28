@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/models/objects/raw/Material_001.material" type="Material" id=1]
 [ext_resource path="res://assets/models/objects/raw/Material_002.material" type="Material" id=2]
@@ -22,6 +22,7 @@ initial_velocity_random = 0.25
 angular_velocity_random = 0.2
 linear_accel = 1.0
 linear_accel_random = 0.5
+radial_accel = 0.5
 tangential_accel_random = 0.22
 scale = 0.5
 scale_random = 0.75
@@ -103,15 +104,20 @@ albedo_color = Color( 0.207843, 0, 0, 1 )
 material = SubResource( 16 )
 size = Vector2( 30, 1 )
 
+[sub_resource type="CubeMesh" id=18]
+
 [sub_resource type="BoxShape" id=10]
 
 [sub_resource type="ParticlesMaterial" id=14]
 emission_shape = 1
-emission_sphere_radius = 12.41
+emission_sphere_radius = 8.0
 direction = Vector3( 3, 0, 0 )
 spread = 180.0
 gravity = Vector3( 0, 1, 0 )
-radial_accel = -9.55
+initial_velocity = 0.5
+angular_velocity = 2.0
+linear_accel = 2.0
+radial_accel = -20.0
 
 [sub_resource type="PrismMesh" id=15]
 size = Vector3( 0.25, 0.25, 0.25 )
@@ -156,6 +162,27 @@ margin_left = 23.0
 margin_top = 1.0
 margin_right = 113.0
 margin_bottom = 41.0
+scroll_active = false
+
+[node name="dist" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = 295.0
+margin_top = 104.0
+margin_right = 445.0
+margin_bottom = 120.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="dist" type="RichTextLabel" parent="KinematicBody/debugUI/dist"]
+margin_right = 31.0
+margin_bottom = 15.0
+text = "dist:"
+scroll_active = false
+
+[node name="dist2" type="RichTextLabel" parent="KinematicBody/debugUI/dist"]
+margin_left = 31.0
+margin_top = 1.0
+margin_right = 145.0
+margin_bottom = 14.0
+text = "0"
 scroll_active = false
 
 [node name="loscollider" type="ColorRect" parent="KinematicBody/debugUI"]
@@ -281,6 +308,27 @@ margin_bottom = 27.0
 text = "false"
 scroll_active = false
 
+[node name="statedbg" type="ColorRect" parent="KinematicBody/debugUI"]
+margin_left = -83.0
+margin_top = 55.0
+margin_right = 34.0
+margin_bottom = 81.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="statedbg" type="RichTextLabel" parent="KinematicBody/debugUI/statedbg"]
+margin_right = 131.0
+margin_bottom = 15.0
+text = "state:"
+scroll_active = false
+
+[node name="statedbg2" type="RichTextLabel" parent="KinematicBody/debugUI/statedbg"]
+margin_left = 1.0
+margin_top = 13.0
+margin_right = 35.0
+margin_bottom = 27.0
+text = "idle"
+scroll_active = false
+
 [node name="exitconnected2" type="ColorRect" parent="KinematicBody/debugUI"]
 margin_left = -83.0
 margin_top = 26.0
@@ -303,11 +351,11 @@ text = "false"
 scroll_active = false
 
 [node name="Particles" type="Particles" parent="KinematicBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113614, 0.47646, -0.00190461 )
-amount = 20
+transform = Transform( 1, 0, 0, 0, 0.999959, 0.00911049, 0, -0.00911049, 0.999959, 0.0113614, 0.443741, 0.0801114 )
+amount = 30
 lifetime = 1.5
 preprocess = 1.19
-speed_scale = 0.41
+speed_scale = 0.4
 visibility_aabb = AABB( -4, -4, -4.47705, 8, 8, 8 )
 draw_order = 1
 process_material = SubResource( 7 )
@@ -333,21 +381,30 @@ transform = Transform( 1, 0, 0, 0, 0.742963, 0, 0, 0, 1, -0.00088501, 0.339974, 
 shape = SubResource( 4 )
 
 [node name="sight" type="Area" parent="KinematicBody"]
+collision_layer = 9
+collision_mask = 9
 
 [node name="sightcol" type="CollisionShape" parent="KinematicBody/sight"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.64354 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015028, 0.0136452, -1.64876 )
 shape = ExtResource( 5 )
 
 [node name="cone" type="MeshInstance" parent="KinematicBody/sight/sightcol"]
 transform = Transform( 1, 0, 0, 0, -0.0297011, 0.999559, 0, -0.999559, -0.0297011, 0, 0, -34.6866 )
+visible = false
 mesh = SubResource( 17 )
 
 [node name="los" type="RayCast" parent="KinematicBody/sight"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -0.733014, 0, 0.0843979, -1.10862 )
 enabled = true
-cast_to = Vector3( 0, 0, 5 )
+cast_to = Vector3( 0, 0, 48 )
 collision_mask = 8
+debug_shape_custom_color = Color( 0.427451, 0, 0, 1 )
 debug_shape_thickness = 5
+
+[node name="MeshInstance" type="MeshInstance" parent="KinematicBody/sight/los"]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0.161564 )
+visible = false
+mesh = SubResource( 18 )
 
 [node name="Attack" type="Spatial" parent="KinematicBody"]
 
@@ -364,7 +421,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="attackDetectBox" type="CollisionShape" parent="KinematicBody/Attack/attackDetectArea"]
-transform = Transform( 0.768198, -0.131802, 0.45, 0.45, 0.45, -0.636396, -0.131802, 0.768198, 0.45, 0, 0.104045, -3.43486 )
+transform = Transform( 0.636396, 1.15225e-08, 0.636396, 0.636396, -2.78178e-08, -0.636396, 1.15225e-08, 0.9, -2.78178e-08, 0, 0.104, -2 )
 shape = SubResource( 10 )
 
 [node name="AttackHurtArea" type="Area" parent="KinematicBody/Attack"]
@@ -373,16 +430,17 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="Particles" type="Particles" parent="KinematicBody/Attack/AttackHurtArea"]
-transform = Transform( 0.384099, -0.065901, 0.225, 0.225, 0.225, -0.318198, -0.065901, 0.384099, 0.225, 0, 0, -2.4256 )
+transform = Transform( 0.384099, -0.065901, 0.225, 0.225, 0.225, -0.318198, -0.065901, 0.384099, 0.225, 0, 0, -1.09749 )
 emitting = false
-amount = 16
-lifetime = 2.0
+amount = 32
+lifetime = 0.9
 one_shot = true
+explosiveness = 0.78
 process_material = SubResource( 14 )
 draw_pass_1 = SubResource( 15 )
 
 [node name="attackHurtbox" type="CollisionShape" parent="KinematicBody/Attack/AttackHurtArea"]
-transform = Transform( 0.384099, -0.065901, 0.225, 0.225, 0.225, -0.318198, -0.065901, 0.384099, 0.225, 0, 0, -2.4256 )
+transform = Transform( 0.25, -0.353553, 0.25, 0.353553, -1.54543e-08, -0.353553, 0.25, 0.353553, 0.25, 0, 0, -1 )
 shape = SubResource( 10 )
 
 [node name="attackEffect" type="MeshInstance" parent="KinematicBody/Attack/AttackHurtArea/attackHurtbox"]
@@ -390,3 +448,17 @@ transform = Transform( 1, 8.19564e-08, 0, 8.9407e-08, 1, 0, 5.96046e-08, 5.96046
 visible = false
 mesh = SubResource( 12 )
 skeleton = NodePath("../..")
+
+[node name="visionTimer" type="Timer" parent="KinematicBody"]
+wait_time = 0.2
+autostart = true
+
+[node name="attackTimer" type="Timer" parent="KinematicBody"]
+one_shot = true
+
+[node name="recoveryTimer" type="Timer" parent="KinematicBody"]
+one_shot = true
+
+[connection signal="timeout" from="KinematicBody/visionTimer" to="KinematicBody" method="_on_visionTimer_timeout"]
+[connection signal="timeout" from="KinematicBody/attackTimer" to="KinematicBody" method="_on_attackTimer_timeout"]
+[connection signal="timeout" from="KinematicBody/recoveryTimer" to="KinematicBody" method="_on_recoveryTimer_timeout"]

@@ -1,6 +1,11 @@
 extends KinematicBody
-var health=100
+export var maxhealth = 20
+export var health = 20
+signal hitSignal(oldhealth,newhealth,totaldmg)
+signal deathsignal(health,killer,dmg)
 
+var killer = "Unknown"
+var lastHit = {"unknown":0}
 var speed = 16 # The movement speed of the player in units per second
 var gravity = -65 # The gravity force applied to the player in units per second squared
 var jump_force = 15 # The upward force applied to the player when jumping in units per second
@@ -67,6 +72,8 @@ pass
 
 
 func _physics_process(delta):
+	if (health <= 0):
+		timeToDie(health)
 	#CHARACTER MOVEMENT LOGIC
 	var direction = Vector3.ZERO
 	if Input.is_action_pressed("move_right"):
@@ -93,9 +100,7 @@ func _physics_process(delta):
 	velocity.y += gravity * delta
 	velocity = move_and_slide(velocity, Vector3.UP,false,4,0.785398,false)
 
-
 	#JUMPING LOGIC
-	
 	if is_on_floor():
 		jump_count = 0
 		if Input.is_action_just_pressed("jump"):
@@ -114,7 +119,6 @@ func _physics_process(delta):
 		state_machine.travel("Idle")
 	else:
 		state_machine.travel("Walk")
-		#$AnimationPlayer.playback_speed = direction.length() * speed * 20
 	pass
 
 	#DEBUG OUTPUT
@@ -171,3 +175,24 @@ func _physics_process(delta):
 			lasthreset=true
 	pass
 	#maxhnode.text=str(maxhcounter)
+
+func hurt(source,dmg):
+	var oldhealth=health
+	var totaldmg=0
+	#allows for damage types
+	for dmginstance in dmg:
+		#take each instance of damage here
+		var dmgval = dmg[dmginstance] #dmg["shadow"]=10 
+		totaldmg += dmgval
+		health -= dmgval
+	lastHit = dmg
+	emit_signal("hitSignal",oldhealth,health,totaldmg)
+	if (health <= 0):
+		killer = source
+		timeToDie(health)
+	pass
+
+func timeToDie(health):
+	emit_signal("deathsignal",health,lastHit)
+	#print(lastHit,killer,health)
+	pass

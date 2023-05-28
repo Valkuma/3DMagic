@@ -13,7 +13,7 @@ albedo_color = Color( 0.192157, 0.180392, 0.113725, 1 )
 
 [sub_resource type="NavigationMesh" id=6]
 
-[node name="defaultlevel" type="Spatial"]
+[node name="level" type="Spatial"]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0 )
@@ -42,9 +42,6 @@ shadow_enabled = true
 [node name="PlayerScene" parent="." instance=ExtResource( 1 )]
 transform = Transform( -0.878267, 0, 0.478171, 0, 1, 0, -0.478171, 0, -0.878267, -4.28908, 1.89782, 9.49049 )
 
-[node name="shadowling" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02353, 1.94628, 18.8008 )
-
 [node name="objects" type="Spatial" parent="."]
 
 [node name="Crate" parent="objects" instance=ExtResource( 2 )]
@@ -55,3 +52,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53281, 2.18853, 0 )
 
 [node name="Crate3" parent="objects" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.26655, 2.15162, 0 )
+
+[node name="shadowling" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.46292, 23.6372, 14.8921 )

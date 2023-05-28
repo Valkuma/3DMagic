@@ -30,5 +30,6 @@ can_sleep = false
 shape = SubResource( 2 )
 
 [node name="Crate" type="MeshInstance" parent="RigidBody"]
+layers = 9
 mesh = SubResource( 1 )
 skeleton = NodePath("")
